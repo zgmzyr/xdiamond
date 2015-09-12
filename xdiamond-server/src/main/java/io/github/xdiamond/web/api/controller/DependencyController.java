@@ -34,6 +34,14 @@ public class DependencyController {
   @Autowired
   ProjectService projectService;
 
+  @RequestMapping(value = "/dependencies/all", method = RequestMethod.GET)
+  @Timed
+  public Object list() {
+    // 这里的权限检查在shiro-web配置文件里
+    List<Dependency> dependencies = dependencyService.list();
+    return RestResult.success().withResult("dependencies", dependencies).build();
+  }
+
   @RequestMapping(value = "/projects/{projectId}/dependencies", method = RequestMethod.GET)
   @Timed
   public Object list(@PathVariable Integer projectId) {

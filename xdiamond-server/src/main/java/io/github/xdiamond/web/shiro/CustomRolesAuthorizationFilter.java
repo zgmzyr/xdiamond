@@ -14,6 +14,12 @@ import org.apache.shiro.util.StringUtils;
 import org.apache.shiro.web.filter.authz.AuthorizationFilter;
 import org.apache.shiro.web.util.WebUtils;
 
+/**
+ * ajax request/accept json return JSON, not ajax request will redirect to unauthorizedUrl.
+ * 
+ * @author hengyunabc
+ *
+ */
 public class CustomRolesAuthorizationFilter extends AuthorizationFilter {
 
   String unauthorizedJSONString =
@@ -39,7 +45,8 @@ public class CustomRolesAuthorizationFilter extends AuthorizationFilter {
       }
     } else {
       if (AjaxUtils.isAjaxRequest(httpRequest) || AjaxUtils.isAcceptJSON(httpRequest)) {
-        WebUtil.wrietJSONResponse(httpResponse, forbiddenJSONString, HttpServletResponse.SC_FORBIDDEN);
+        WebUtil.wrietJSONResponse(httpResponse, forbiddenJSONString,
+            HttpServletResponse.SC_FORBIDDEN);
       } else {
         String unauthorizedUrl = getUnauthorizedUrl();
         if (StringUtils.hasText(unauthorizedUrl)) {
